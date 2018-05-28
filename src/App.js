@@ -9,29 +9,15 @@ import Card from './components/Card'
 const clientID = 'dj0yJmk9TU9RRHVCb2tGS3YyJmQ9WVdrOWNGTlVjblZRTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wOQ--';
 const clientSecret = 'a7e51eca02dcd579d8da9cc43669f651c13ca6d6';
 
-const inputStyle = {};
+const inputStyle = {
+    marginBottom: '5%',
+    marginTop: '1%'
+};
 const buttonStyle = {};
-const card = {
-    display: 'block',
-    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-    transition: '0.3s',
-    backgroundColor: 'cyan',
-    width: '25%',
-    marginLeft: '37%'
+const AppStyle = {
+    backgroundColor: '#FDA328'
 };
-
-const container = {
-    display: 'flex',
-    justifyContent: 'space-around',
-    padding: '2px 16px',
-    backgroundColor: 'white'
-};
-const windStyle = {};
-
-const tempStyle = {};
-
-const textStyle = {};
-
+const secStyle = {}
 
 class App extends Component {
 
@@ -39,7 +25,9 @@ class App extends Component {
         query: 'rio',
         condition: '',
         location: '',
-        wind: ''
+        wind: '',
+        atmosphere: '',
+        units: ''
     };
 
     componentDidMount() {
@@ -72,6 +60,24 @@ class App extends Component {
             .catch(function (error) {
                 console.log(error);
             });
+
+        axios.get(`${url}`)
+            .then(res => {
+                const atmosphere = res.data.query.results.channel.atmosphere;
+                this.setState({atmosphere});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get(`${url}`)
+            .then(res => {
+                const units = res.data.query.results.channel.units;
+                this.setState({units});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     updateQuery = (query) => {
@@ -79,20 +85,23 @@ class App extends Component {
     };
 
     render() {
-        const {condition, location, wind} = this.state;
+
+        const {condition, location, wind, atmosphere, units} = this.state;
         return (
-            <div className="App">
+            <div style={AppStyle} className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
-                <div>
-                    <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
-                    <button onClick={(event) => this.componentDidMount()} style={buttonStyle}/>
+                <section style={secStyle}>
                     <Card condition={condition}
                           location={location}
-                          wind={wind}/>
-                </div>
+                          wind={wind}
+                          atmosphere={atmosphere}
+                          units={units}/>
+                    <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
+                    <button onClick={(event) => this.componentDidMount()} style={buttonStyle}>Buscar</button>
+                </section>
             </div>
         );
     }
