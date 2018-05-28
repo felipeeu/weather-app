@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+//components
+import Weekdays from "./Weekdays";
+
 
 const card = {
     display: 'block',
@@ -6,9 +9,9 @@ const card = {
     transition: '0.3s',
     width: '25%',
     marginLeft: '37%',
-    marginTop:'2%',
+    marginTop: '2%',
     backgroundColor: 'rgba(255,244,229,0.7)'
-       // '#fff3e5'
+    // '#fff3e5'
 };
 
 const container = {
@@ -37,21 +40,25 @@ const sameStyle = {
 class Card extends Component {
 
     render() {
-        console.log(this.props)
-        const {condition, location, wind, atmosphere, units} = this.props;
-        return (
-                <section style={card}>
-                    <label>
-                        {location.city},{location.region}-{location.country}
-                    </label>
-                    <section style={container}>
-                        <div style={tempStyle}>{condition.temp}{' \xB0'} {units.temperature}</div>
-                        <div style={textStyle}>{condition.text}</div>
-                        <div style={sameStyle}> Wind speed: {wind.speed} {units.speed}</div>
-                        <div style={sameStyle}> Humidity: {atmosphere.humidity} %</div>
-                    </section>
 
+        const {condition, location, wind, atmosphere, units, forecast} = this.props;
+        return (
+            <section style={card}>
+                <label>
+                    {location.city},{location.region}-{location.country}
+                </label>
+                <section style={container}>
+                    <div style={tempStyle}>{condition.temp}{' \xB0'} {units.temperature}</div>
+                    <div style={textStyle}>{condition.text}</div>
+                    <div style={sameStyle}> Wind speed: {wind.speed} {units.speed}</div>
+                    <div style={sameStyle}> Humidity: {atmosphere.humidity} %</div>
                 </section>
+                <hr/>
+                <Weekdays
+                forecast={forecast}
+                units={units}
+                />
+            </section>
         )
     }
 }

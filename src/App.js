@@ -27,7 +27,8 @@ class App extends Component {
         location: '',
         wind: '',
         atmosphere: '',
-        units: ''
+        units: '',
+        forecast: []
     };
 
     componentDidMount() {
@@ -78,6 +79,16 @@ class App extends Component {
             .catch(function (error) {
                 console.log(error);
             });
+
+
+        axios.get(`${url}`)
+            .then(res => {
+                const forecast = res.data.query.results.channel.item.forecast;
+                this.setState({forecast});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     updateQuery = (query) => {
@@ -86,21 +97,24 @@ class App extends Component {
 
     render() {
 
-        const {condition, location, wind, atmosphere, units} = this.state;
+        const {condition, location, wind, atmosphere, units, forecast} = this.state;
         return (
             <div style={AppStyle} className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">Welcome to React</h1>
+                    <h1 className="App-title">Previsão do Tempo</h1>
                 </header>
                 <section style={secStyle}>
                     <Card condition={condition}
                           location={location}
                           wind={wind}
                           atmosphere={atmosphere}
-                          units={units}/>
+                          units={units}
+                          forecast={forecast}/>
                     <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
                     <button onClick={(event) => this.componentDidMount()} style={buttonStyle}>Buscar</button>
+                    <hr/>
+                    <h1>Capitais:</h1>
                 </section>
             </div>
         );
