@@ -4,35 +4,33 @@ import axios from 'axios'
 
 import './App.css';
 
+import Card from './components/Card'
+
 const clientID = 'dj0yJmk9TU9RRHVCb2tGS3YyJmQ9WVdrOWNGTlVjblZRTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wOQ--';
 const clientSecret = 'a7e51eca02dcd579d8da9cc43669f651c13ca6d6';
 
 const inputStyle = {};
 const buttonStyle = {};
 const card = {
+    display: 'block',
     boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
     transition: '0.3s',
     backgroundColor: 'cyan',
     width: '25%',
+    marginLeft: '37%'
 };
 
 const container = {
-
-    flexDirection: 'row' ,
+    display: 'flex',
+    justifyContent: 'space-around',
     padding: '2px 16px',
     backgroundColor: 'white'
 };
-const windStyle ={
+const windStyle = {};
 
-};
+const tempStyle = {};
 
-const tempStyle ={
-
-};
-
-const textStyle ={
-
-};
+const textStyle = {};
 
 
 class App extends Component {
@@ -75,6 +73,7 @@ class App extends Component {
                 console.log(error);
             });
     }
+
     updateQuery = (query) => {
         this.setState({query})
     };
@@ -90,15 +89,9 @@ class App extends Component {
                 <div>
                     <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
                     <button onClick={(event) => this.componentDidMount()} style={buttonStyle}/>
-                    <div style={card}>
-                        <p>{location.city},{location.region}-{location.country}</p>
-                        <div style={container}>
-                            <div style={textStyle}>{condition.text}</div>
-                            <div style={tempStyle}>{condition.temp}{' \xB0F'}</div>
-                            <div style={windStyle}>{wind.speed}</div>
-                        </div>
-                    </div>
-                    {console.log(this.state.location.city)}
+                    <Card condition={condition}
+                          location={location}
+                          wind={wind}/>
                 </div>
             </div>
         );
