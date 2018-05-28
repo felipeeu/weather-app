@@ -7,14 +7,41 @@ import './App.css';
 const clientID = 'dj0yJmk9TU9RRHVCb2tGS3YyJmQ9WVdrOWNGTlVjblZRTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wOQ--';
 const clientSecret = 'a7e51eca02dcd579d8da9cc43669f651c13ca6d6';
 
-const inputStyle = {}
+const inputStyle = {};
+const buttonStyle = {};
+const card = {
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+    transition: '0.3s',
+    backgroundColor: 'cyan',
+    width: '25%',
+};
+
+const container = {
+
+    flexDirection: 'row' ,
+    padding: '2px 16px',
+    backgroundColor: 'white'
+};
+const windStyle ={
+
+};
+
+const tempStyle ={
+
+};
+
+const textStyle ={
+
+};
 
 
 class App extends Component {
 
     state = {
-        query:'rio',
-        forecast: []
+        query: 'rio',
+        condition: '',
+        location: '',
+        wind: ''
     };
 
     componentDidMount() {
@@ -23,35 +50,56 @@ class App extends Component {
 
         axios.get(`${url}`)
             .then(res => {
-                const forecast = res.data.query.results.channel.item;
-                this.setState({forecast});
+                const condition = res.data.query.results.channel.item.condition;
+                this.setState({condition});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get(`${url}`)
+            .then(res => {
+                const location = res.data.query.results.channel.location;
+                this.setState({location});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get(`${url}`)
+            .then(res => {
+                const wind = res.data.query.results.channel.wind;
+                this.setState({wind});
             })
             .catch(function (error) {
                 console.log(error);
             });
     }
-
     updateQuery = (query) => {
         this.setState({query})
     };
 
     render() {
+        const {condition, location, wind} = this.state;
         return (
             <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo"/>
                     <h1 className="App-title">Welcome to React</h1>
                 </header>
-
                 <div>
-                    <input onChange={(event) => this.updateQuery(event.target.value)} type = 'text' style={inputStyle}/>
-                    <button onClick={(event) => this.componentDidMount ()}></button>
-
-                    {console.log(this.state.forecast)}
-                    {console.log(this.state.query)}
+                    <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
+                    <button onClick={(event) => this.componentDidMount()} style={buttonStyle}/>
+                    <div style={card}>
+                        <p>{location.city},{location.region}-{location.country}</p>
+                        <div style={container}>
+                            <div style={textStyle}>{condition.text}</div>
+                            <div style={tempStyle}>{condition.temp}{' \xB0F'}</div>
+                            <div style={windStyle}>{wind.speed}</div>
+                        </div>
+                    </div>
+                    {console.log(this.state.location.city)}
                 </div>
-
-
             </div>
         );
     }
