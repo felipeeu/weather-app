@@ -38,57 +38,18 @@ class App extends Component {
         axios.get(`${url}`)
             .then(res => {
                 const condition = res.data.query.results.channel.item.condition;
-                this.setState({condition});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios.get(`${url}`)
-            .then(res => {
                 const location = res.data.query.results.channel.location;
-                this.setState({location});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios.get(`${url}`)
-            .then(res => {
                 const wind = res.data.query.results.channel.wind;
-                this.setState({wind});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios.get(`${url}`)
-            .then(res => {
                 const atmosphere = res.data.query.results.channel.atmosphere;
-                this.setState({atmosphere});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-        axios.get(`${url}`)
-            .then(res => {
                 const units = res.data.query.results.channel.units;
-                this.setState({units});
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-        axios.get(`${url}`)
-            .then(res => {
                 const forecast = res.data.query.results.channel.item.forecast;
-                this.setState({forecast});
+
+                this.setState({condition,location,wind , atmosphere , units, forecast});
             })
             .catch(function (error) {
                 console.log(error);
             });
+
     }
 
     updateQuery = (query) => {
