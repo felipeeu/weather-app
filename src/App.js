@@ -22,7 +22,7 @@ const secStyle = {}
 class App extends Component {
 
     state = {
-        query: 'rio',
+        query: null,
         condition: '',
         location: '',
         wind: '',
@@ -32,6 +32,7 @@ class App extends Component {
     };
 
     componentDidMount() {
+
         const url = `https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20
         (select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${this.state.query}%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`
 
@@ -44,7 +45,7 @@ class App extends Component {
                 const units = res.data.query.results.channel.units;
                 const forecast = res.data.query.results.channel.item.forecast;
 
-                this.setState({condition,location,wind , atmosphere , units, forecast});
+                this.setState({condition, location, wind, atmosphere, units, forecast});
             })
             .catch(function (error) {
                 console.log(error);
@@ -53,12 +54,15 @@ class App extends Component {
     }
 
     updateQuery = (query) => {
-        this.setState({query})
+        const trimmedQuery = query.trim()
+        this.setState({query: trimmedQuery});
+        trimmedQuery?
+            this.componentDidMount() : null
     };
 
     render() {
 
-        const {condition, location, wind, atmosphere, units, forecast} = this.state;
+        const {condition, location, wind, atmosphere, units, forecast, query} = this.state;
         return (
             <div style={AppStyle} className="App">
                 <header className="App-header">
@@ -66,14 +70,15 @@ class App extends Component {
                     <h1 className="App-title">Previsão do Tempo</h1>
                 </header>
                 <section style={secStyle}>
-                    <Card condition={condition}
-                          location={location}
-                          wind={wind}
-                          atmosphere={atmosphere}
-                          units={units}
-                          forecast={forecast}/>
+                    {query ?
+                        <Card condition={condition}
+                              location={location}
+                              wind={wind}
+                              atmosphere={atmosphere}
+                              units={units}
+                              forecast={forecast}/> : null}
+
                     <input onChange={(event) => this.updateQuery(event.target.value)} type='text' style={inputStyle}/>
-                    <button onClick={(event) => this.componentDidMount()} style={buttonStyle}>Buscar</button>
                     <hr/>
                     <h1>Capitais:</h1>
                 </section>

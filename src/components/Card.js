@@ -11,7 +11,7 @@ const card = {
     marginLeft: '37%',
     marginTop: '2%',
     backgroundColor: 'rgba(255,244,229,0.7)'
-    // '#fff3e5'
+
 };
 
 const container = {
@@ -22,17 +22,16 @@ const container = {
 
 };
 const tempStyle = {
-    //backgroundColor: 'magenta',
     fontSize: '40px'
 };
 
 const textStyle = {
-    //backgroundColor: 'red',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    fontSize: '40px'
+
 };
 
 const sameStyle = {
-    //backgroundColor: 'cyan',
     fontSize: '10px',
     fontFamily: ''
 };
