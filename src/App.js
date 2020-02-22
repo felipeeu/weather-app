@@ -2,9 +2,23 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
-import "./App.css";
+import InputData from "./components/InputData";
 
-import Wrapper from "./components/Wrapper";
+import Card from "./components/Card";
+
+import styled from "styled-components";
+
+const Body = styled.section`
+  height: 100vh;
+  width: auto;
+`;
+
+const Bar = styled.section`
+  background-color: chocolate;
+  display: flex;
+  justify-content: center;
+  height: 25vh;
+`;
 
 const clientID =
   "dj0yJmk9TU9RRHVCb2tGS3YyJmQ9WVdrOWNGTlVjblZRTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wOQ--";
@@ -66,16 +80,21 @@ class App extends Component {
       query
     } = this.state;
     return (
-      <Wrapper
-        query={query}
-        condition={condition}
-        location={location}
-        wind={wind}
-        atmosphere={atmosphere}
-        units={units}
-        forecast={forecast}
-        updateQuery={this.updateQuery}
-      />
+      <Body>
+        <Bar>
+          <InputData updateQuery={this.updateQuery} />
+        </Bar>
+        {/* {query ? ( */}
+        <Card
+          condition={condition}
+          location={location}
+          wind={wind}
+          atmosphere={atmosphere}
+          units={units}
+          forecast={forecast}
+        />
+        {/* ) : null} */}
+      </Body>
     );
   }
 }
