@@ -9,63 +9,57 @@ const CardWrapper = styled.section`
   grid-template-areas:
     "header header"
     "content1  content2";
-  background-color: wheat;
+  background-color: #f6bc1d;
   overflow: hidden;
   margin: 48px auto 0;
-  width: 30vw;
-  height: 25vh;
-  font-family: Poiret One;
+  width: 80vw;
+  height: 15vh;
   box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3),
     0 17px 17px 0 rgba(0, 0, 0, 0.15);
-  border-radius: 15px;
-  @media (max-width: 1329px) {
-    height: 40vh;
+  border-radius: 5px;
+  @media (min-width: 750px) {
+    width: 60vw;
   }
-  @media (max-width: 551px) {
-    width: 80vw;
-    height: 20vh;
+  @media only screen and (max-width: 2000px) and (min-width: 1350px) {
+    width: 40vw;
   }
 `;
 
 const CardHeader = styled.h1`
-  font-size: 4em;
+  font-size: 3.5em;
+  font-family: monospace;
   grid-area: header;
-  /* background-color: red; */
+  padding-right: 10px;
+  padding-left: 10px;
   text-align: center;
   align-self: center;
   border-bottom-style: solid;
+  border-bottom-width: thin;
   height: 100%;
-  @media (max-width: 699px) {
-    font-size: 3em;
-  }
-  @media (max-width: 373px) {
+  @media (max-width: 502px) {
     font-size: 2em;
   }
 `;
 
 const ContentTemp = styled.h1`
   grid-area: content1;
-  /* background-color: pink; */
   align-self: center;
   text-align: center;
   height: 100%;
-  font-size: 4em;
+  font-size: 3.5em;
+  font-family: monospace;
   overflow-wrap: break-word;
   border-right-style: solid;
-  @media (max-width: 1255px) {
-    font-size: 3em;
-  }
-  @media (max-width: 1255px) {
+  border-right-width: thin;
+  @media only screen and (max-width: 414px) and (min-width: 320px) {
     font-size: 2em;
   }
 `;
 const Content = styled.img`
   grid-area: content2;
-  /* background-color: purple; */
   align-self: center;
   text-align: center;
-  /* height: 100%; */
-  font-size: 4em;
+  font-size: 3.5em;
   overflow-wrap: break-word;
 `;
 
@@ -76,7 +70,7 @@ const ImageWrapper = styled.section`
 
 const Card = ({ icon, temperature, location }) => (
   <CardWrapper>
-    <CardHeader>{location}</CardHeader>
+    <CardHeader>Rio de Janeiro{location}</CardHeader>
     <ContentTemp>
       {temperature ? temperature : ""}
       {temperature ? "°C" : " "}

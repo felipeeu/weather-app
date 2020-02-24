@@ -14,11 +14,14 @@ const Body = styled.section`
 `;
 
 const Bar = styled.section`
-  background-color: chocolate;
+  background-color: #f6861d;
   display: flex;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
   height: 25vh;
 `;
+const Header = styled.h1``;
 
 const App = () => {
   const [allStates, setAllStates] = useState({
@@ -31,7 +34,7 @@ const App = () => {
   const { location, temperature, iconUrl, query } = allStates;
 
   useEffect(() => {
-    apiCall(query);
+    // apiCall(query);
     return () => {};
   }, [query]);
 
@@ -68,6 +71,7 @@ const App = () => {
   return (
     <Body>
       <Bar>
+        <Header>Weather Condition</Header>
         <InputData updateQuery={updateQuery} />
       </Bar>
       <Card icon={iconUrl} temperature={fixedTemperature} location={location} />

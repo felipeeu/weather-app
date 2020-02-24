@@ -1,10 +1,5 @@
 import React from "react";
-import Card from "./Card";
 import styled from "styled-components";
-
-const InputContainer = styled.section`
-  align-self: center;
-`;
 
 const Input = styled.input`
   border-radius: 4px;
@@ -16,9 +11,11 @@ const Input = styled.input`
 `;
 
 const InputData = ({ updateQuery }) => (
-  <InputContainer>
-    <Input onChange={event => updateQuery(event.target.value)} type="text" />
-  </InputContainer>
+  <Input
+    onChange={event => updateQuery(event.target.value)}
+    type="text"
+    placeholder="search"
+  />
 );
 
 export default InputData;
