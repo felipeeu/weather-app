@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
@@ -20,83 +20,59 @@ const Bar = styled.section`
   height: 25vh;
 `;
 
-const clientID =
-  "dj0yJmk9TU9RRHVCb2tGS3YyJmQ9WVdrOWNGTlVjblZRTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wOQ--";
-const clientSecret = "a7e51eca02dcd579d8da9cc43669f651c13ca6d6";
-
-class App extends Component {
-  state = {
-    query: null,
-    condition: "",
+const App = () => {
+  const [allStates, setAllStates] = useState({
+    query: "Rio de Janeiro",
     location: "",
-    wind: "",
-    atmosphere: "",
-    units: "",
-    forecast: []
-  };
+    temperature: null,
+    iconUrl: ""
+  });
 
-  componentDidMount() {
-    const url = `https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20
-        (select%20woeid%20from%20geo.places(1)%20where%20text%3D%22${this.state.query}%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`;
+  const { location, temperature, iconUrl, query } = allStates;
 
+  useEffect(() => {
+    apiCall(query);
+    return () => {};
+  }, [query]);
+
+  const apiCall = query => {
+    const APIKey = "b397208261cae24790e5d7b7800ad0d8";
+    const url = `http://api.openweathermap.org/data/2.5/weather?q=${query}&APPID=${APIKey}`;
     axios
       .get(`${url}`)
       .then(res => {
-        const condition = res.data.query.results.channel.item.condition;
-        const location = res.data.query.results.channel.location;
-        const wind = res.data.query.results.channel.wind;
-        const atmosphere = res.data.query.results.channel.atmosphere;
-        const units = res.data.query.results.channel.units;
-        const forecast = res.data.query.results.channel.item.forecast;
+        const iconCode = res.data.weather[0].icon;
+        const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        const temperature = res.data.main.temp;
+        const location = res.data.name;
 
-        this.setState({
-          condition,
-          location,
-          wind,
-          atmosphere,
-          units,
-          forecast
+        setAllStates({
+          ...allStates,
+          iconUrl: iconUrl,
+          temperature: temperature,
+          location: location
         });
       })
       .catch(function(error) {
-        console.log(error);
+        return error;
       });
-  }
-
-  updateQuery = query => {
-    const trimmedQuery = query.trim();
-    this.setState({ query: trimmedQuery });
-    trimmedQuery ? this.componentDidMount() : null;
   };
 
-  render() {
-    const {
-      condition,
-      location,
-      wind,
-      atmosphere,
-      units,
-      forecast,
-      query
-    } = this.state;
-    return (
-      <Body>
-        <Bar>
-          <InputData updateQuery={this.updateQuery} />
-        </Bar>
-        {/* {query ? ( */}
-        <Card
-          condition={condition}
-          location={location}
-          wind={wind}
-          atmosphere={atmosphere}
-          units={units}
-          forecast={forecast}
-        />
-        {/* ) : null} */}
-      </Body>
-    );
-  }
-}
+  const updateQuery = query => {
+    const trimmedQuery = query.trim();
+    setAllStates({ ...allStates, query: trimmedQuery });
+  };
+
+  const temperatureCelsius = temperature - 273;
+  const fixedTemperature = temperatureCelsius && temperatureCelsius.toFixed(1);
+  return (
+    <Body>
+      <Bar>
+        <InputData updateQuery={updateQuery} />
+      </Bar>
+      <Card icon={iconUrl} temperature={fixedTemperature} location={location} />
+    </Body>
+  );
+};
 
 export default App;

@@ -3,10 +3,6 @@ import Card from "./Card";
 import styled from "styled-components";
 
 const InputContainer = styled.section`
-  /* align-self: center;
-  width: 100vw;
-  display: flex;
-  justify-content: center; */
   align-self: center;
 `;
 
