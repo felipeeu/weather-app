@@ -6,6 +6,8 @@ import InputData from "./components/InputData";
 
 import Card from "./components/Card";
 
+import ButtonComponent from "./components/ButtonComponent";
+
 import styled from "styled-components";
 
 const Body = styled.section`
@@ -25,18 +27,15 @@ const Header = styled.h1``;
 
 const App = () => {
   const [allStates, setAllStates] = useState({
-    query: "Rio de Janeiro",
-    location: "",
-    temperature: null,
-    iconUrl: ""
+    query: "",
+    data: []
   });
 
-  const { location, temperature, iconUrl, query } = allStates;
+  const { data, query } = allStates;
 
   useEffect(() => {
-    // apiCall(query);
     return () => {};
-  }, [query]);
+  }, [data]);
 
   const apiCall = query => {
     const APIKey = "b397208261cae24790e5d7b7800ad0d8";
@@ -44,16 +43,23 @@ const App = () => {
     axios
       .get(`${url}`)
       .then(res => {
+        const id = res.data.id;
         const iconCode = res.data.weather[0].icon;
         const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
         const temperature = res.data.main.temp;
+        const temperatureCelsius = temperature - 273;
+        const fixedTemperature =
+          temperatureCelsius && temperatureCelsius.toFixed(1);
         const location = res.data.name;
 
         setAllStates({
           ...allStates,
-          iconUrl: iconUrl,
-          temperature: temperature,
-          location: location
+          data: data.concat({
+            iconUrl: iconUrl,
+            temperature: fixedTemperature,
+            location: location,
+            id: id
+          })
         });
       })
       .catch(function(error) {
@@ -66,15 +72,37 @@ const App = () => {
     setAllStates({ ...allStates, query: trimmedQuery });
   };
 
-  const temperatureCelsius = temperature - 273;
-  const fixedTemperature = temperatureCelsius && temperatureCelsius.toFixed(1);
+  const insertCard = query => {
+    apiCall(query);
+  };
+
+  const deleteCard = id => {
+    setAllStates({
+      ...allStates,
+      data: data && data.filter(item => item.id !== id)
+    });
+  };
+
   return (
     <Body>
       <Bar>
         <Header>Weather Condition</Header>
         <InputData updateQuery={updateQuery} />
+        <ButtonComponent insertCard={insertCard} query={query} />
       </Bar>
-      <Card icon={iconUrl} temperature={fixedTemperature} location={location} />
+      {data &&
+        data.map((item, idx) => {
+          return (
+            <Card
+              icon={item.iconUrl}
+              temperature={item.temperature}
+              location={item.location}
+              id={item.id}
+              key={idx}
+              deleteCard={deleteCard}
+            />
+          );
+        })}
     </Body>
   );
 };

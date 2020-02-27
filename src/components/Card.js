@@ -67,10 +67,17 @@ const ImageWrapper = styled.section`
   display: flex;
   justify-content: center;
 `;
+const DeleteButton = styled.button`
+  position: absolute;
+  background-color: #f6f21d;
+  border-radius: inherit;
+  font-weight: 800;
+`;
 
-const Card = ({ icon, temperature, location }) => (
+const Card = ({ icon, temperature, location, deleteCard, id }) => (
   <CardWrapper>
-    <CardHeader>Rio de Janeiro{location}</CardHeader>
+    <DeleteButton onClick={() => deleteCard(id)}> X </DeleteButton>
+    <CardHeader>{location}</CardHeader>
     <ContentTemp>
       {temperature ? temperature : ""}
       {temperature ? "°C" : " "}
