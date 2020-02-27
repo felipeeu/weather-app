@@ -3,7 +3,7 @@ This project is a simple consultation weather responsive web app.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-##Setup on Terminal and Run Project Locally
+## Setup on Terminal and Run Project Locally
 ```terminal
 git clone https://github.com/felipeeu/challenge-previsao.git
 cd challenge-previsao
