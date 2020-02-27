@@ -1,4 +1,17 @@
+## Weather App
+This project is a simple consultation weather responsive web app. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+##Setup on Terminal
+```terminal
+git clone https://github.com/felipeeu/challenge-previsao.git
+cd challenge-previsao
+npm install
+npm start
+```
+
+![](addingCards.gif)
 
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
